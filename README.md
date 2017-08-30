@@ -20,7 +20,7 @@ bonsai> store [key] [value]
 ```
 
 #### `get` 
-Retrieve value by key
+Retrieve memory address and value by key
 ```bash
 bonsai> get [key]
 ```
