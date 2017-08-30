@@ -25,6 +25,18 @@ Retrieve memory address and value by key
 bonsai> get [key]
 ```
 
+#### `status`
+Print information about the store
+```bash
+bonsai> status
+```
+
+#### `fill`
+Add `n` dummy keys to the store where `n` is an integer. Used for benchmarking
+```bash
+bonsai> fill [n]
+```
+
 ### `exit` 
 Close bonsai instance
 ```bash
