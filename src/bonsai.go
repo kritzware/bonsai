@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -38,12 +40,30 @@ func readInput(db *Store) {
 			}
 		case "get":
 			key := splitLine[1]
-			result, _, err := db.Get(key)
+			result, row, err := db.Get(key)
 			if err != nil {
 				fmt.Println("Error:", err)
 				break
 			}
-			fmt.Println(result)
+			fmt.Printf("[%p] \"%s\"\n", &row, result)
+		case "status":
+			fmt.Printf("db: %T, %d bytes\n", db, db.Size())
+			fmt.Printf("keys: %d\n", db.GetKeyCount())
+		case "fill":
+			startTime := time.Now().UnixNano() / int64(time.Millisecond)
+			iterations := splitLine[1]
+			max, _ := strconv.Atoi(iterations)
+			for i := 0; i < max; i++ {
+				val := []byte(strconv.Itoa(i))
+				key := strconv.Itoa(i)
+				err := db.Insert("key:"+key, val)
+				if err != nil {
+					fmt.Println("Erorr:", err)
+				}
+			}
+			endTime := time.Now().UnixNano() / int64(time.Millisecond)
+			diff := (endTime - startTime)
+			fmt.Printf("Finished in %dms\n", diff)
 		case "exit":
 			fmt.Println("Goodbye!")
 			os.Exit(1)
